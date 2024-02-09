@@ -1,0 +1,20 @@
+# VSCode
+*.vs
+*.vscode
+.env
+
+# Python
+.pytest_cache
+**/__pycache__
+.venv
+
+# CSharp
+backend_csharp/hangman/Hangman/obj
+backend_csharp/hangman/Hangman/bin
+backend_csharp/hangman/Hangman/.vs
+backend_csharp/hangman/Hangman/*.user
+
+# JS
+node_modules
+lib
+spec

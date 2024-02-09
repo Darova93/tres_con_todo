@@ -1,0 +1,28 @@
+.wordle .word {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 4px;
+}
+
+.word{
+    height: 75px;
+}
+
+.wordle .word .letter {
+    margin: 2px 0 2px 0;
+    padding: 20px;
+    border: 1px;
+    border-radius: 5px;
+}
+
+.missing{
+    background-color: yellow;
+}
+
+.correct{
+    background-color: limegreen;
+}
+
+.fail{
+    background-color: rgba(255, 255, 255, .15);
+}

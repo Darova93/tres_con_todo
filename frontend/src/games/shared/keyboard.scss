@@ -1,0 +1,42 @@
+$key-background: white;
+$used-key-background: silver;
+
+.keyboard {
+    display: flex;
+    flex-flow: column;
+
+    &__letter {
+        display: grid;
+        align-items: center;
+        width: 2em;
+        height: 2em;
+        margin: 0.1em;
+        background-color: $key-background;
+        color: black;
+        margin: .1em;
+        border-radius: .25em;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+        transition: 100ms transform;
+
+        &:hover{
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.80);
+        }
+
+        &:active{
+            background-color: rgba(255, 255, 255, 0.69);
+            transform: scale(0.95);
+        }
+
+        &.keyboard__used-letter {
+            background-color: $used-key-background;
+        }
+    }
+
+    &__line {
+        display: flex;
+        justify-content: center;
+    }
+}
