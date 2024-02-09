@@ -57,4 +57,5 @@ class Wordle:
         return GameStatus.LOSS
 
     def guess(self, word: str) -> None:
-        self.turns.append(WordleTurn(self.word_of_the_day, word))
+        if (self.word_picker.is_word_valid(word)):
+            self.turns.append(WordleTurn(self.word_of_the_day, word))
