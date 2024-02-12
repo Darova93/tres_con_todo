@@ -1,73 +1,72 @@
 services:
-  proxy:
-    image: nginx
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - 80:80
-    depends_on:
-      - python_backend
-      - react_frontend
-      - csharp_backend
-    networks:
-      - backnet
+    proxy:
+        image: nginx
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        ports:
+            - 80:80
+        depends_on:
+            - python_backend
+            - react_frontend
+            - csharp_backend
+        networks:
+            - backnet
 
-  python_backend:
-    container_name: python_backend
-    build:
-      context: ./backend
-      target: dev-envs
-    stop_signal: SIGINT
-    ports:
-      - 8000:8000
-    volumes:
-      - ./backend:/code
-    networks:
-      - backnet
+    python_backend:
+        container_name: python_backend
+        build:
+            context: ./backend
+            target: dev-envs
+        stop_signal: SIGINT
+        ports:
+            - 8000:8000
+        volumes:
+            - ./backend:/code
+        networks:
+            - backnet
 
-  react_frontend:
-    container_name: react_frontend
-    build:
-      context: ./frontend
-      target: development
-    ports:
-      - 3000:3000
-    volumes:
-      - ./frontend/src:/code/src
-      - /project/node_modules
-    networks:
-      - backnet
-    depends_on:
-      - python_backend
-      - csharp_backend
-    expose:
-      - 3306
-      - 33060
+    react_frontend:
+        container_name: react_frontend
+        build:
+            context: ./frontend
+            target: development
+        ports:
+            - 3000:3000
+        volumes:
+            - ./frontend:/code
+        networks:
+            - backnet
+        depends_on:
+            - python_backend
+            - csharp_backend
+        expose:
+            - 3306
+            - 33060
 
-  csharp_backend:
-    container_name: csharp_backend
-    build:
-      context: ./backend_csharp/hangman/Hangman
-    ports:
-      - 7143:80
-    networks:
-      - backnet
+    csharp_backend:
+        container_name: csharp_backend
+        build:
+            context: ./backend_csharp/hangman/Hangman
+        ports:
+            - 7143:80
+        networks:
+            - backnet
 
-  db:
-    container_name: db
-    image: mysql
-    volumes:
-      - db-data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: tres_con_todo
-    ports:
-      - 3306:3306
-    networks:
-      - backnet
+    db:
+        container_name: db
+        image: mysql
+        volumes:
+            - db-data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: tres_con_todo
+        ports:
+            - 3306:3306
+        networks:
+            - backnet
 
 networks:
-  backnet:
+    backnet:
 
 volumes:
-  db-data:
+    db-data:
