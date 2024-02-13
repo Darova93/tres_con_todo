@@ -1,5 +1,6 @@
 from datetime import datetime
 from games.wordle.types import WordPicker
+from games.utils.text_processor import clean_special_characters
 
 class StartingDate:
     startingDate = None
@@ -28,9 +29,13 @@ class FileWordPicker(WordPicker):
     def __init__(self):
         with open(self.file_name, "r", newline="\n", encoding="utf-8") as file:
             for word in file:
-                self.valid_word_list.append(word.replace("\n", "").upper())
+                clean_word = clean_special_characters(word.replace("\n", "").upper())
+                self.valid_word_list.append(clean_word)
 
     def get_word_of_the_day(self) -> str:
         starting_date = StartingDate(2024,1,1)
         todaysAnswer = self.valid_word_list[get_days_since_starting_date(starting_date.get_timestamp())]
         return todaysAnswer
+
+    def is_word_valid(self, word: str) -> bool:
+        return word.upper() in self.valid_word_list
