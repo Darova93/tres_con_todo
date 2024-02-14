@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GameState, Status, WordData } from "../../types/wordleTypes";
 import Keyboard from "../shared/keyboard";
 import "./styles.scss";
@@ -10,6 +10,12 @@ const Wordle = () => {
     const [gameState, setGameState] = useState<GameState>();
     const [wordList, setWordList] = useState<WordData[]>();
     const [playing, setPlaying] = useState<boolean>(true);
+    const [gameWon, setGameWon] = useState(false);
+    const wordleRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        wordleRef.current?.focus();
+    }, []);
 
     useEffect(() => {
         const lastGuess = document.getElementsByClassName("last-guess")[0];
@@ -42,21 +48,19 @@ const Wordle = () => {
     const handleKeyDown = (char: string) => {
         if (!playing) return;
         let word = currentWord;
-        if (word.includes(" ")) word = word.slice(0, -1);
         if (char === "ENTER") {
             handleEnter();
             return;
         }
-        if (!isLetter(char) && !(char === "BACKSPACE")) {
-            shakeWord();
+        if (char === "BACKSPACE") {
+            setCurrentWord(word.slice(0, -1) || " ");
             return;
         }
-        if (isLetter(char) && word.length < 5) word += char;
-        if (char === "BACKSPACE") {
-            word = word.slice(0, -1);
+        if (isLetter(char) && word.length < 5) {
+            setCurrentWord(word.trim() + char);
+            return;
         }
-        if (word.length === 0) word = " ";
-        setCurrentWord(word);
+        shakeWord();
     };
 
     const createPayload = (): GameState => {
@@ -114,14 +118,16 @@ const Wordle = () => {
         );
     };
 
-    const endGame = () => {
+    const endGame = (won: boolean) => {
         setCurrentWord("");
         setPlaying(false);
+        setGameWon(won);
     };
 
     const processResponse = (serverResponse: GameState) => {
-        if (serverResponse.status === Status.WIN) endGame();
-        if (serverResponse.status === Status.LOSS) endGame();
+        if (serverResponse.status === Status.WIN) endGame(true);
+        if (serverResponse.status === Status.LOSS) endGame(false);
+        if (serverResponse.words.length === 5) endGame(false);
         setGameState(serverResponse);
         setWordList((prevList) => serverResponse.words ?? prevList?.push(serverResponse.words));
         setCurrentWord(" ");
@@ -157,8 +163,19 @@ const Wordle = () => {
 
     return (
         <>
+            {!gameWon && !playing && (
+                <div className="you-lose">
+                    <div className="you-lose-text"></div>YOU LOSE
+                </div>
+            )}
+            {gameWon && !playing && (
+                <div className="you-win">
+                    <div className="you-win-text"></div>
+                </div>
+            )}
             <div
-                tabIndex={0}
+                tabIndex={-1}
+                ref={wordleRef}
                 className="wordle"
                 onKeyDown={(event) => handleKeyDown(event.key.toString().toUpperCase())}
             >
@@ -180,10 +197,12 @@ const Wordle = () => {
                         />
                     )}
                 </div>
-                <Keyboard
-                    usedLetters={getCurrentLetters() || new Set()}
-                    keyClickHandler={(key) => handleKeyDown(key)}
-                ></Keyboard>
+                <div className="keyboard-wrapper">
+                    <Keyboard
+                        usedLetters={getCurrentLetters() || new Set()}
+                        keyClickHandler={(key) => handleKeyDown(key)}
+                    ></Keyboard>
+                </div>
             </div>
         </>
     );
