@@ -8,7 +8,11 @@ type KeyboardLetterProps = {
 const KeyboardLetter = ({letter, isUsed, onKeyClickHandler}: KeyboardLetterProps) => {
     return (
         <span
-            className={"keyboard__letter " + (isUsed ? "keyboard__used-letter" : '')}
+            className={
+                'keyboard__letter ' +
+                (letter.length > 1 ? 'keyboard__long' : '') +
+                (isUsed ? 'keyboard__used-letter' : '')
+            }
             onClick={() => onKeyClickHandler(letter)}
         >
             {letter}
@@ -27,6 +31,8 @@ const Keyboard = ({usedLetters, keyClickHandler}: KeyboardProps) => {
         'asdfghjklñ'.toUpperCase().split(''),
         'zxcvbnm'.toUpperCase().split('')
     ];
+    qwerty[2].push('DELETE');
+    qwerty[2].unshift('ENTER');
     return (
         <div className='keyboard'>
             {qwerty.map((letters, index) => {
