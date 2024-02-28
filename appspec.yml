@@ -1,35 +1,17 @@
 version: 0.0
 os: linux
 files:
- - source: /backend
-   destination: /home/ec2-user/python-flask-service
- - source: requirements.txt
-   destination: /home/ec2-user/python-flask-service
-permissions:
-  - object: /home/ec2-user/python-flask-service/app.py
-    owner: ec2-user
-    mode: 644
-    type:
-      - file
-  - object: /home/ec2-user/python-flask-service/app.py
-    owner: ec2-user
-    mode: 644
-    type:
-      - file
-  - object: /home/ec2-user/python-flask-service/requirements.txt
-    owner: ec2-user
-    mode: 644
-    type:
-      - file
+  - source: /
+    destination: /home/ubuntu/server
 hooks:
-  AfterInstall:
-   - location: scripts/install_dependencies
-     timeout: 300
-     runas: root
-   - location: scripts/start_server
-     timeout: 300
-     runas: root
+  BeforeInstall:
+   - location: scripts/install_app.sh
+     timeout: 60
   ApplicationStop:
-   - location: scripts/stop_server
-     timeout: 300
-     runas: root
+    - location: scripts/stop_app.sh
+      timeout: 60
+      runas: ec2-user
+  ApplicationStart:
+    - location: scripts/start_pp.sh
+      timeout: 60
+      runas: ec2-user
