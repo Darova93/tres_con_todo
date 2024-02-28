@@ -11,6 +11,7 @@ const Wordle = () => {
     const [wordList, setWordList] = useState<WordData[]>();
     const [playing, setPlaying] = useState<boolean>(true);
     const [gameWon, setGameWon] = useState(false);
+    const [animateGuess, setAnimateGuess] = useState<boolean>(true);
     const wordleRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -19,8 +20,8 @@ const Wordle = () => {
 
     useEffect(() => {
         const lastGuess = document.getElementsByClassName("last-guess")[0];
-        guessAnimation(lastGuess);
-    }, [wordList]);
+        if (animateGuess) guessAnimation(lastGuess);
+    }, [wordList, animateGuess]);
 
     const guessAnimation = (guess: Element) => {
         if (guess) {
@@ -52,7 +53,7 @@ const Wordle = () => {
             handleEnter();
             return;
         }
-        if (char === "BACKSPACE") {
+        if (char === "BACKSPACE" || char === "DELETE") {
             setCurrentWord(word.slice(0, -1) || " ");
             return;
         }
@@ -127,7 +128,12 @@ const Wordle = () => {
     const processResponse = (serverResponse: GameState) => {
         if (serverResponse.status === Status.WIN) endGame(true);
         if (serverResponse.status === Status.LOSS) endGame(false);
-        if (serverResponse.words.length === 5) endGame(false);
+        if (serverResponse.words[serverResponse.words.length - 1]?.word !== currentWord) {
+            shakeWord();
+            setAnimateGuess(false);
+        } else {
+            setAnimateGuess(true);
+        }
         setGameState(serverResponse);
         setWordList((prevList) => serverResponse.words ?? prevList?.push(serverResponse.words));
         setCurrentWord(" ");
