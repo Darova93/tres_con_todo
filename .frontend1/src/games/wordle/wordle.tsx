@@ -3,7 +3,7 @@ import { GameState, Status, WordData } from "../../types/wordleTypes";
 import Keyboard from "../shared/keyboard";
 import "./styles.scss";
 import WordleWord from "./wordleWord";
-const apiURL = "http://localhost/api/games/v0.1/wordle/checkword";
+const apiURL: string = process.env.REACT_APP_LOCALHOST as string;
 
 const Wordle = () => {
     const [currentWord, setCurrentWord] = useState<string>(" ");
@@ -48,7 +48,7 @@ const Wordle = () => {
 
     const handleKeyDown = (char: string) => {
         if (!playing) return;
-        const word = currentWord;
+        let word = currentWord;
         if (char === "ENTER") {
             handleEnter();
             return;
@@ -65,7 +65,7 @@ const Wordle = () => {
     };
 
     const createPayload = (): GameState => {
-        const wordsPlaying: WordData[] = wordList ? wordList : [];
+        let wordsPlaying: WordData[] = wordList ? wordList : [];
 
         wordsPlaying.push({
             word: currentWord,
@@ -74,7 +74,7 @@ const Wordle = () => {
             fails: [],
         });
 
-        const payload = {
+        let payload = {
             status: gameState?.status || Status.NEW,
             words: wordsPlaying,
         };

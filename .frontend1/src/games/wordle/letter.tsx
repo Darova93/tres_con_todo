@@ -1,3 +1,5 @@
+import React from "react";
+
 export enum LetterState {
     Blank = "blank",
     Incorrect = "incorrect",
