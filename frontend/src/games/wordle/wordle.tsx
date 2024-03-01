@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GameState, Status, WordData } from "../../types/wordleTypes";
 import Keyboard from "../shared/keyboard";
 import "./styles.scss";
 import WordleWord from "./wordleWord";
-const apiURL = "http://localhost/api/games/v0.1/wordle/checkword";
+const apiURL = import.meta.env.VITE_API_PATH;
 
 const Wordle = () => {
     const [currentWord, setCurrentWord] = useState<string>(" ");
@@ -16,6 +16,7 @@ const Wordle = () => {
 
     useEffect(() => {
         wordleRef.current?.focus();
+        console.log(apiURL);
     }, []);
 
     useEffect(() => {
