@@ -1,5 +1,4 @@
-import React from "react";
-const WordleLetter = ({ letter, index, className }: { letter: string; index: number; className: string }) => {
+const WordleLetter = ({ letter, className }: { letter: string; className: string }) => {
     return <div className={`letter ${className}`}>{letter}</div>;
 };
 

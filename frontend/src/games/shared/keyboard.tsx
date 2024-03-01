@@ -1,4 +1,3 @@
-import React from "react";
 import "./keyboard.scss";
 
 type KeyboardLetterProps = {

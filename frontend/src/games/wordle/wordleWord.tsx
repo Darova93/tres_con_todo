@@ -1,7 +1,6 @@
-import React from "react";
 import { WordData } from "../../types/wordleTypes";
 import WordleLetter from "./wordleLettter";
-const WordleWord = ({ value, index, className = "" }: { value: WordData; index: number; className: string }) => {
+const WordleWord = ({ value, className = "" }: { value: WordData; className: string }) => {
     const classes = {
         correct: "correct",
         missing: "missing",
@@ -22,7 +21,6 @@ const WordleWord = ({ value, index, className = "" }: { value: WordData; index: 
                 <WordleLetter
                     key={`letter-${letter}-${index}`}
                     letter={letter}
-                    index={index}
                     className={getLetterClass(value, index)}
                 />
             ))}

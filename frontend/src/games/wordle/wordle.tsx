@@ -191,7 +191,6 @@ const Wordle = () => {
                         <WordleWord
                             key={`word-${value.word}-${index}`}
                             value={value}
-                            index={index}
                             className={index === wordList.length - 1 ? "last-guess" : "past-guess"}
                         />
                     ))}
@@ -199,7 +198,6 @@ const Wordle = () => {
                         <WordleWord
                             key={`current-word`}
                             value={{ word: currentWord, correct: [], missplaced: [], fails: [] }}
-                            index={currentWord.length - 1}
                             className="current-word"
                         />
                     )}
