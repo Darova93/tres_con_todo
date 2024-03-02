@@ -1,0 +1,16 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 2em;
+    font-size: 1em;
+
+    img {
+        margin: 2em;
+        max-height: 10em;
+    }
+
+    h3 {
+        font-size: 0.5em;
+    }
+}

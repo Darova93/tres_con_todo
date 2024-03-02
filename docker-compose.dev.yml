@@ -34,6 +34,7 @@ services:
             - 3000:3000
         volumes:
             - ./frontend:/code
+            - /code/node_modules
         networks:
             - backnet
         depends_on:
