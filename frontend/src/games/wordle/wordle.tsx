@@ -16,7 +16,6 @@ const Wordle = () => {
 
     useEffect(() => {
         wordleRef.current?.focus();
-        console.log(apiURL);
     }, []);
 
     useEffect(() => {
