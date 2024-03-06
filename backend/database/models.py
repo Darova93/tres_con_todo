@@ -1,26 +1,32 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Date, Boolean
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from .connection import Base
 
 class User(Base):
     __tablename__ = "user"
-    id = Column(Integer, primary_key=True)
-    name = Column(String(50), unique=True)
-    email = Column(String(120), unique=True)
+    id : Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    name : Mapped[str] = mapped_column(String(50))
+    email : Mapped[str] = mapped_column(String(120), unique=True)
 
 
 class Language(Base):
     __tablename__ = "language"
 
-    id = Column(Integer, primary_key=True)
-    locale = Column(String(10), unique=True)
-    name = Column(String(20))
+    language : Mapped[str] = mapped_column(String(20))
+    locale : Mapped[str] = mapped_column(String(10), primary_key=True)
 
+class Word(Base):
+    __tablename__ = "word"
 
-class WordleWord(Base):
-    __tablename__ = "wordle_word"
+    id : Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    word : Mapped[str] = mapped_column(String(50))
+    locale : Mapped[str] = relationship(back_populates="language")
+    can_be_word_of_the_day : Mapped[bool] = mapped_column(Boolean)
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    word: Mapped[str] = mapped_column(String(50), unique=True)
-    definition: Mapped[str] = mapped_column(String(500), unique=True)
-    language: Mapped[Language] = relationship(back_populates="language")
+class WordOfTheDay(Base):
+    __tablename__ = "word_of_the_day"
+
+    id : Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    word_id : Mapped[int] = relationship(back_populates="word")
+    date : Mapped[Date] = mapped_column(Date, unique=True)
+
