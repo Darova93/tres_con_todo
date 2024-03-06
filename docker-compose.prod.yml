@@ -30,9 +30,8 @@ services:
         container_name: react_frontend
         build:
             context: ./frontend
-            target: development
         ports:
-            - 3000:3000
+            - 3000:80
         volumes:
             - ./frontend:/code
             - /code/node_modules

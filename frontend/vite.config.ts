@@ -10,6 +10,9 @@ export default defineConfig({
         environment: "jsdom",
     },
     server: {
-        port: 3000,
+      port: 80,
+      watch: {
+        usePolling: true,
+      }
     },
 }) as UserConfig;
