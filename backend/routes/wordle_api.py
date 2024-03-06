@@ -58,5 +58,4 @@ def check_word():
         response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     except ValidationError as error:
-        return error.messages, 400
-    
+        return error.messages, 400    
