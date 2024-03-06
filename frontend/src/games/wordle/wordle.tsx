@@ -3,7 +3,7 @@ import { GameState, Status, WordData } from "../../types/wordleTypes";
 import Keyboard from "../shared/keyboard";
 import "./styles.scss";
 import WordleWord from "./wordleWord";
-const apiURL: string = process.env.REACT_APP_LOCALHOST as string;
+const apiURL = import.meta.env.VITE_API_PATH;
 
 const Wordle = () => {
     const [currentWord, setCurrentWord] = useState<string>(" ");
@@ -48,7 +48,7 @@ const Wordle = () => {
 
     const handleKeyDown = (char: string) => {
         if (!playing) return;
-        let word = currentWord;
+        const word = currentWord;
         if (char === "ENTER") {
             handleEnter();
             return;
@@ -65,7 +65,7 @@ const Wordle = () => {
     };
 
     const createPayload = (): GameState => {
-        let wordsPlaying: WordData[] = wordList ? wordList : [];
+        const wordsPlaying: WordData[] = wordList ? wordList : [];
 
         wordsPlaying.push({
             word: currentWord,
@@ -74,7 +74,7 @@ const Wordle = () => {
             fails: [],
         });
 
-        let payload = {
+        const payload = {
             status: gameState?.status || Status.NEW,
             words: wordsPlaying,
         };
@@ -190,7 +190,6 @@ const Wordle = () => {
                         <WordleWord
                             key={`word-${value.word}-${index}`}
                             value={value}
-                            index={index}
                             className={index === wordList.length - 1 ? "last-guess" : "past-guess"}
                         />
                     ))}
@@ -198,7 +197,6 @@ const Wordle = () => {
                         <WordleWord
                             key={`current-word`}
                             value={{ word: currentWord, correct: [], missplaced: [], fails: [] }}
-                            index={currentWord.length - 1}
                             className="current-word"
                         />
                     )}

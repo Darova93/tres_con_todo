@@ -1,6 +1,5 @@
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
-import GoogleLogin from "./components/GoogleLogin";
 import Home from "./components/Home";
 import Wordle from "./games/wordle/wordle";
 import "./styles/global.scss";
