@@ -33,4 +33,4 @@ RUN ["npm", "run", "build"]
 
 FROM nginx:1.13-alpine
 
-COPY --from=build /code/build /usr/share/nginx/html
+COPY --from=build /code/dist /usr/share/nginx/html
