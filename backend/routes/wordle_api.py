@@ -57,4 +57,3 @@ def check_word():
         return jsonify(wordle_response)
     except ValidationError as error:
         return error.messages, 400
-    
