@@ -54,8 +54,6 @@ def check_word():
         for word_attempt in check_word_request["words"]:
             wordle.guess(word_attempt["word"])
         wordle_response = WordleCheckWordResponse(wordle)
-        response =  jsonify(wordle_response)
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        return response
+        return jsonify(wordle_response)
     except ValidationError as error:
-        return error.messages, 400    
+        return error.messages, 400
