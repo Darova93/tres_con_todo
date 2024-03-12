@@ -1,15 +1,25 @@
 services:
     proxy:
-        image: nginx
+        image: nginx:latest
         volumes:
-            - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+            - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+            - ./certbot/www:/var/www/certbot/:ro
+            - ./certbot/conf/:/etc/nginx/ssl/:ro
         ports:
             - 80:80
+            - 443:443
+        restart: always
         depends_on:
             - python_backend
             - react_frontend
         networks:
             - backnet
+
+    certbot:
+        image: certbot/certbot:latest
+        volumes:
+          - ./certbot/www/:/var/www/certbot/:rw
+          - ./certbot/conf/:/etc/letsencrypt/:rw
 
     python_backend:
         container_name: python_backend
