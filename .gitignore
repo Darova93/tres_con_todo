@@ -18,3 +18,7 @@ backend_csharp/hangman/Hangman/*.user
 node_modules
 lib
 spec
+
+# Certificates
+*.pem
+certbot
