@@ -6,9 +6,10 @@ export function GoogleLogin() {
         try {
             const response = await fetch(loginURL, {
                 method: "POST",
+                redirect: "follow",
             });
-
-            console.log(response);
+            const result = await response.json();
+            window.location.assign(result.auth_url);
         } catch (error) {
             console.error("Error:", error);
         }

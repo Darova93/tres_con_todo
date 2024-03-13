@@ -1,4 +1,3 @@
-from authlib.integrations.flask_client import OAuth
 from flask import Flask
 from database.connection import db_session, init_db
 from routes import ROUTES
@@ -8,8 +7,6 @@ init_db()
 app = Flask(__name__)
 app.config["CORS_HEADERS"] = "Content-Type"
 app.secret_key = environ.get("SECRET_KEY", urandom(24))
-
-oauth = OAuth(app)
 
 for route in ROUTES:
     app.register_blueprint(route)
