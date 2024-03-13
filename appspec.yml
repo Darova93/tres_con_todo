@@ -1,0 +1,17 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/server
+hooks:
+  BeforeInstall:
+   - location: scripts/install_app.sh
+     timeout: 60
+  ApplicationStop:
+    - location: scripts/stop_app.sh
+      timeout: 60
+      runas: ec2-user
+  ApplicationStart:
+    - location: scripts/start_pp.sh
+      timeout: 60
+      runas: ec2-user
