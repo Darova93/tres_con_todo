@@ -16,6 +16,9 @@ services:
 
     python_backend:
         container_name: python_backend
+        # To debug change command to
+        # python -m debugpy --wait-for-client --listen 0.0.0.0:5678 -m flask run
+        command: python app.py
         build:
             context: ./backend
             target: dev-envs
