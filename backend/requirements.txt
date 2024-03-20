@@ -26,7 +26,6 @@ pyright==1.1.349
 pytest==8.0.0
 python-dotenv==1.0.1
 requests==2.31.0
-setuptools==69.0.3
 SQLAlchemy==2.0.25
 tomli==2.0.1
 typing_extensions==4.9.0

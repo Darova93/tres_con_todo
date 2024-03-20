@@ -58,7 +58,7 @@ services:
         volumes:
             - db-data:/var/lib/mysql
         environment:
-            MYSQL_USER: root
+            MYSQL_ROOT_USER: root
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: tres_con_todo
         ports:
@@ -66,7 +66,7 @@ services:
         networks:
             - backnet
         healthcheck:
-            test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-u', '$$MYSQL_USER', '--password=$$MYSQL_ROOT_PASSWORD']
+            test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-u', '$$MYSQL_ROOT_USER', '--password=$$MYSQL_ROOT_PASSWORD']
             start_period: 5s
             interval: 5s
             timeout: 5s
