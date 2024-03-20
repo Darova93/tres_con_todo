@@ -1,7 +1,7 @@
 .home-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 80vh;
     padding: 2em;
     font-size: 1em;
 
@@ -12,5 +12,33 @@
 
     h3 {
         font-size: 0.5em;
+    }
+
+    .login-button {
+        display: flex;
+        justify-content: center;
+        flex-grow: 1;
+        &:active {
+            transform: translate(0.1em, 0.1em);
+        }
+        button {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5em;
+            border-radius: 5px;
+            align-self: flex-end;
+            border: 0;
+            box-shadow: 0.3em 0.3em;
+            img {
+                height: 2em;
+                width: 2em;
+                margin: 0;
+            }
+            label {
+                margin-left: 1em;
+            }
+        }
     }
 }
