@@ -1,4 +1,4 @@
-from requests import get, post
+from requests import get, post, _Auth
 from flask import Blueprint, request, redirect, jsonify
 from flask_cors import cross_origin
 from sqlalchemy import select
@@ -56,7 +56,7 @@ def callback():
         token_url,
         headers=headers,
         data=body,
-        auth=(client_id, secret),
+        auth=_Auth(client_id, secret), # type: ignore
     )
     token_response = token_response_raw.json()
     client.parse_request_body_response(json.dumps(token_response))
