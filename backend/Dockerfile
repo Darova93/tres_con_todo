@@ -1,10 +1,12 @@
 # syntax=docker/dockerfile:1.4
-FROM --platform=$BUILDPLATFORM python:3.10-alpine AS builder
+FROM --platform=linux/amd64 python:3.10-alpine AS builder
 
 WORKDIR /code
 COPY requirements.txt /code
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip3 install -r requirements.txt
+
+RUN pip3 install debugpy
 
 COPY . .
 
@@ -20,3 +22,9 @@ CMD ["flask", "run"]
 FROM builder AS dev-envs
 
 CMD ["python", "app.py"]
+
+FROM builder AS dev-envs-debug
+
+EXPOSE 5678
+
+CMD ["python", "-m", "debugpy", "--wait-for-client", "--listen", "0.0.0.0:5678", "-m", "flask", "run"]

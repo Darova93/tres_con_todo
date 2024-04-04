@@ -1,14 +1,25 @@
-const GoogleLogin = () => {
-    function onSignIn(googleUser: any) {
-        const profile = googleUser.getBasicProfile();
-        console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log("Name: " + profile.getName());
-        console.log("Image URL: " + profile.getImageUrl());
-        console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
-    }
+import GLogo from "../assets/Google_G_logo.svg";
+const loginURL = import.meta.env.VITE_LOGIN_PATH;
 
-    // return <div className="g-signin2" data-onsuccess="onSignIn"></div>;
-    return <div className="g-signin2" data-onsuccess={onSignIn}></div>;
-};
-
-export default GoogleLogin;
+export function GoogleLogin() {
+    const loginRequest = async () => {
+        try {
+            const response = await fetch(loginURL, {
+                method: "POST",
+                redirect: "follow",
+            });
+            const result = await response.json();
+            window.location.assign(result.auth_url);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+    return (
+        <>
+            <button onClick={loginRequest}>
+                <img src={GLogo} />
+                <label>Login with Google</label>
+            </button>
+        </>
+    );
+}
